@@ -65,6 +65,23 @@ class OpenAiGPT(LLMForRelevanceJudgment):
         
         return output.choices[0].message.to_dict()
 
+class GeminiGPT(OpenAiGPT):
+    def __init__(self, prompt: str, model : str, preamble : str = None, **kwargs) -> None:
+        """_summary_
+
+        Args:
+            prompt (_type_): _description_
+            model (_type_): _description_
+            preamble (_type_, optional): _description_. Defaults to None.
+        """
+        from openai import OpenAI as cli
+        import tiktoken
+
+        self._model = model # Model name
+        self._client = cli(base_url="https://generativelanguage.googleapis.com/v1beta/openai/") # OpenAI client
+        self._prompt = prompt # Outlines prompt
+        self._preamble = preamble # System prompt
+        self._kwargs = kwargs # All completion parameters e.g max_tokens, temperature ...
 
 class LiteLLM(LLMForRelevanceJudgment):
     def __init__(self, prompt: str, model : str, preamble : str = None, **kwargs) -> None:
@@ -117,4 +134,4 @@ class LiteLLM(LLMForRelevanceJudgment):
         
         return output.choices[0].message.to_dict()  
 
-__all__ = sorted(list(['OpenAiGPT', 'LiteLLM']))
+__all__ = sorted(list(['OpenAiGPT', 'LiteLLM', 'GeminiGPT']))
