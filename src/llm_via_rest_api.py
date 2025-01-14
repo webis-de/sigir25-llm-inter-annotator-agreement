@@ -57,6 +57,7 @@ class AnthropicLLM(LLMForRelevanceJudgment):
 
         return {"content": output.content[0].text, "role": "assistant"}
 
+
 class OpenAiGPT(LLMForRelevanceJudgment):
     def __init__(self, prompt: str, model : str, preamble : str = None, **kwargs) -> None:
         """_summary_
@@ -108,6 +109,30 @@ class OpenAiGPT(LLMForRelevanceJudgment):
         )
         
         return output.choices[0].message.to_dict()
+
+
+class GroqGPT(OpenAiGPT):
+    def __init__(self, prompt: str, model : str, preamble : str = None, **kwargs) -> None:
+        """_summary_
+
+        Args:
+            prompt (_type_): _description_
+            model (_type_): _description_
+            preamble (_type_, optional): _description_. Defaults to None.
+        """
+        from openai import OpenAI as cli
+        import tiktoken
+
+        self._model = model # Model name
+        self._client = cli(base_url="https://api.groq.com/openai/v1") # OpenAI client
+        self._prompt = prompt # Outlines prompt
+        self._preamble = preamble # System prompt
+        self._kwargs = kwargs # All completion parameters e.g max_tokens, temperature
+
+    def generate(self, query : str, passage : str):
+        import time
+        time.sleep(5)
+        return super().generate(query, passage)
 
 class GeminiGPT(OpenAiGPT):
     def __init__(self, prompt: str, model : str, preamble : str = None, **kwargs) -> None:
@@ -178,4 +203,4 @@ class LiteLLM(LLMForRelevanceJudgment):
         
         return output.choices[0].message.to_dict()  
 
-__all__ = sorted(list(['OpenAiGPT', 'LiteLLM', 'GeminiGPT', 'AnthropicLLM']))
+__all__ = sorted(list(['OpenAiGPT', 'LiteLLM', 'GeminiGPT', 'AnthropicLLM', 'GroqGPT']))
