@@ -12,6 +12,50 @@ class LLMForRelevanceJudgment:
         raise ValueError('ToDo: implement this method to generate response for {query} and {document}.')
 
 
+class AnthropicLLM(LLMForRelevanceJudgment):
+    def __init__(self, prompt: str, model : str) -> None:
+        """_summary_
+
+        Args:
+            prompt (_type_): _description_
+            model (_type_): _description_
+            preamble (_type_, optional): _description_. Defaults to None.
+        """
+        import anthropic
+
+        self._model = model
+        self._client = anthropic.Anthropic()
+        self._prompt = prompt
+        self._preamble = None
+
+    def generate(self, query : str, passage : str):
+        """ Generate a response with a instruct LLM.
+
+        Args:
+            query (str): the query
+            passage (str): the document
+
+        Returns:
+            str: LLM response
+        """
+        messages = []
+        if self._preamble:
+            messages.append(
+                {
+                    "role": "system",
+                    "content": self._preamble
+                }
+            )
+        
+        formatted = self._prompt(query, passage)
+        messages.append({
+            "role": "user",
+            "content": [{"type": "text", "text": formatted}]
+        })
+
+        output = self._client.messages.create(model=self._model, messages=messages, max_tokens=1000)
+
+        return {"content": output.content[0].text, "role": "assistant"}
 
 class OpenAiGPT(LLMForRelevanceJudgment):
     def __init__(self, prompt: str, model : str, preamble : str = None, **kwargs) -> None:
@@ -134,4 +178,4 @@ class LiteLLM(LLMForRelevanceJudgment):
         
         return output.choices[0].message.to_dict()  
 
-__all__ = sorted(list(['OpenAiGPT', 'LiteLLM', 'GeminiGPT']))
+__all__ = sorted(list(['OpenAiGPT', 'LiteLLM', 'GeminiGPT', 'AnthropicLLM']))
