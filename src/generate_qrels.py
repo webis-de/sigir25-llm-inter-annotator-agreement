@@ -1,5 +1,9 @@
 import re
 
+import gzip
+import json
+import ir_datasets
+
 def parse_llm_response(response: str) -> int:
     "This method is from UMBRELA https://github.com/castorini/umbrela/blob/main/src/umbrela/utils/common_utils.py and will be properly cited in the paper."
     response = response.strip().lower()
@@ -54,10 +58,37 @@ LLMS = [
 ]
 
 PROMPTS = [
-    'umbrella_zeroshot_bing',
+    'umbrella_zeroshot_basic',
 ]
 
-if __name__ == 'main':
+DATASETS = [
+    'msmarco-passage-trec-dl-2019-judged','msmarco-passage-trec-dl-2020-judged',
+]
+
+if __name__ == '__main__':
+    for dataset in DATASETS:
+        irds_id = dataset.replace('passage-', 'passage/').replace('-judged', '/judged')
+        qrels_iter = ir_datasets.load(irds_id).qrels_iter()
+
+        with open(f'data/{dataset}/qrels/trec.qrels.txt', 'w') as f:
+            for qrel in qrels_iter:
+                f.write(f'{qrel.query_id} q0 {qrel.doc_id} {qrel.relevance}\n')
+
     for llm in LLMS:
         for prompt in PROMPTS:
-            pass
+            for dataset in DATASETS:
+                qrels = []
+                with gzip.open(f'data/{dataset}/predictions/{llm}-{prompt}.jsonl.gz') as f:
+                    for l in f:
+                        try:
+                            l = json.loads(l)
+                            qid, docno = l['query_id'], l['doc_id']
+                            rel, val = parse_llm_response(l['prediction']['content'])
+                            qrels.append(f'{qid} q0 {docno} {rel}')
+
+                        except json.decoder.JSONDecodeError:
+                            pass
+
+                with open(f'data/{dataset}/qrels/{llm}-{prompt}.qrels.txt', 'w') as f:
+                    for l in qrels:
+                        f.write(l +'\n')
