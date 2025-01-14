@@ -44,3 +44,20 @@ def parse_llm_response(response: str) -> int:
         valid_res = 0
         print(f"Invalid response: {response}")
     return int(answer), valid_res
+
+LLMS = [
+    'GeminiGPT-gemini-1.5-flash-8b',
+    'GeminiGPT-gemini-1.5-flash',
+    'OpenAiGPT-gpt-4o-mini',
+    'OpenAiGPT-gpt-4o',
+    'AnthropicLLM-claude-3-haiku-20240307',
+]
+
+PROMPTS = [
+    'umbrella_zeroshot_bing',
+]
+
+if __name__ == 'main':
+    for llm in LLMS:
+        for prompt in PROMPTS:
+            pass
