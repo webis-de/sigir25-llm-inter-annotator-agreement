@@ -20,8 +20,11 @@ ANTHROPIC_API_KEY= python3 src/predict.py --prompt umbrella_zeroshot_basic --llm
 ANTHROPIC_API_KEY= python3 src/predict.py --prompt umbrella_zeroshot_basic --llm AnthropicLLM --model claude-3-haiku-20240307
 ANTHROPIC_API_KEY= python3 src/predict.py --prompt umbrella_zeroshot_basic --llm AnthropicLLM --model claude-3-5-sonnet-20241022
 ANTHROPIC_API_KEY= python3 src/predict.py --prompt umbrella_zeroshot_basic --llm AnthropicLLM --model claude-3-5-haiku-20241022
-```
 
+OPENAI_API_KEY= python3 src/predict.py --prompt umbrella_zeroshot_basic --llm GroqLLM --model mixtral-8x7b-32768
+
+```
+TODO: Add groq
 2*anthropic
 
 mixtral
