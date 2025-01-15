@@ -4,7 +4,7 @@ import gzip
 import json
 
 
-DATASETS = ['msmarco-passage/trec-dl-2019/judged', 'msmarco-passage/trec-dl-2020/judged']
+DATASETS = ['ir-lab-wise-2024/subsampled-ms-marco-rag-20250105-training', 'msmarco-passage/trec-dl-2019/judged', 'msmarco-passage/trec-dl-2020/judged']
 
 for ds in DATASETS:
     target_file = ds.replace('/', '-') + '/inputs.jsonl.gz'
