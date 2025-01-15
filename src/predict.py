@@ -6,7 +6,7 @@ import gzip
 import llm_via_rest_api
 from tqdm import tqdm
 
-DATASETS = ['msmarco-passage/trec-dl-2019/judged', 'msmarco-passage/trec-dl-2020/judged']
+DATASETS = ['msmarco-passage/trec-dl-2019/judged', 'msmarco-passage/trec-dl-2020/judged', 'msmarco-passage-v2.1/trec-rag-2024/judged']
 
 
 @click.command()
