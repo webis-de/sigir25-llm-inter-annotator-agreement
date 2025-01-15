@@ -55,6 +55,9 @@ LLMS = [
     'OpenAiGPT-gpt-4o-mini',
     'OpenAiGPT-gpt-4o',
     'AnthropicLLM-claude-3-haiku-20240307',
+    'AnthropicLLM-claude-3-5-haiku-20241022',
+    'AnthropicLLM-claude-3-sonnet-20240229',
+    'LiteLLM-llama3',
 ]
 
 PROMPTS = [
