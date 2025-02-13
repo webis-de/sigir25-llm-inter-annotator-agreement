@@ -59,6 +59,7 @@ LLMS = [
     'AnthropicLLM-claude-3-5-haiku-20241022',
     'AnthropicLLM-claude-3-sonnet-20240229',
     'LiteLLM-llama3',
+    'LiteLLM-llama3.1',
 ]
 
 PROMPTS = [
