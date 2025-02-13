@@ -3,6 +3,7 @@ import re
 import gzip
 import json
 import ir_datasets
+from pathlib import Path
 
 def parse_llm_response(response: str) -> int:
     "This method is from UMBRELA https://github.com/castorini/umbrela/blob/main/src/umbrela/utils/common_utils.py and will be properly cited in the paper."
@@ -65,15 +66,19 @@ PROMPTS = [
 ]
 
 DATASETS = [
-    'msmarco-passage-trec-dl-2019-judged','msmarco-passage-trec-dl-2020-judged',
+    'msmarco-passage-trec-dl-2019-judged','msmarco-passage-trec-dl-2020-judged', 'msmarco-passage-v2.1-trec-rag-2024-judged'
 ]
 
 if __name__ == '__main__':
     for dataset in DATASETS:
         irds_id = dataset.replace('passage-', 'passage/').replace('-judged', '/judged')
+        qrel_file = Path(f'data/{dataset}/qrels/trec.qrels.txt')
+        if qrel_file.exists():
+            continue
+
         qrels_iter = ir_datasets.load(irds_id).qrels_iter()
 
-        with open(f'data/{dataset}/qrels/trec.qrels.txt', 'w') as f:
+        with open(qrel_file, 'w') as f:
             for qrel in qrels_iter:
                 f.write(f'{qrel.query_id} q0 {qrel.doc_id} {qrel.relevance}\n')
 
