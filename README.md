@@ -1,6 +1,6 @@
-## SIGIR 2025 (Under Review): Large Language Model Relevance Assessors Agree With One Another More Than With Human Assessors
+## SIGIR 2025: Large Language Model Relevance Assessors Agree With One Another More Than With Human Assessors
 
-This repository contains all code and predictions for the paper on "Large Language Model Relevance Assessors Agree With One Another More Than With Human Assessors" that is currently under review at SIGIR 2025.
+This repository contains all code and predictions for the paper on "Large Language Model Relevance Assessors Agree With One Another More Than With Human Assessors" that is presented at SIGIR 2025.
 
 # Motivation
 
